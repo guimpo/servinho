@@ -1,6 +1,5 @@
 package edu.self.servlet.config;
 
-import org.springframework.boot.web.servlet.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -23,20 +22,12 @@ public class WebMvcConfigure implements WebMvcConfigurer {
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable("default");
+        configurer.enable("custom");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/")
-                .setCachePeriod(3600)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver());
-    }
-
-    @Bean
-    public ErrorPageFilter errorPageFilter() {
-        return new ErrorPageFilter();
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(3600)
+                .resourceChain(true).addResolver(new PathResourceResolver());
     }
 }

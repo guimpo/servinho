@@ -1,32 +1,24 @@
 package edu.self.servlet.config;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
 public class WebAppInitializer implements WebApplicationInitializer {
-
+ 
     public void onStartup(ServletContext container) throws ServletException {
-
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        AnnotationConfigWebApplicationContext ctx
+          = new AnnotationConfigWebApplicationContext();
         ctx.register(WebMvcConfigure.class);
         ctx.setServletContext(container);
 
-        ServletRegistration.Dynamic servletOne = container.addServlet("SpringProgrammaticDispatcherServlet", new DispatcherServlet(ctx));
-        servletOne.setLoadOnStartup(1);
-        servletOne.addMapping("/");
-
-        XmlWebApplicationContext xctx = new XmlWebApplicationContext();
-        xctx.setConfigLocation("/WEB-INF/context.xml");
-        xctx.setServletContext(container);
-
-        ServletRegistration.Dynamic servletTwo = container.addServlet("SpringProgrammaticXMLDispatcherServlet", new DispatcherServlet(xctx));
-        servletTwo.setLoadOnStartup(1);
-        servletTwo.addMapping("/");
-    }
-
+        ServletRegistration.Dynamic servlet = container.addServlet(
+          "dispatcherExample", new DispatcherServlet(ctx));
+        servlet.setLoadOnStartup(1);
+        servlet.addMapping("/");
+     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>edu.self</groupId>
@@ -11,15 +10,17 @@
   <name>servlet</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
+  <packaging>war</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <!-- The main class to start by executing java -jar -->
-    <start-class>org.servlet.App</start-class>
-    <tomee-servlet-api.version>8.5.11</tomee-servlet-api.version>
-<!--    <resource.delimiter>@</resource.delimiter>-->
+    <start-class>edu.self.servlet.App</start-class>
+    <!-- <tomee-servlet-api.version>8.5.11</tomee-servlet-api.version> -->
+    <!--    <resource.delimiter>@</resource.delimiter>-->
+    <spring-boot.version>2.4.5</spring-boot.version>
   </properties>
 
   <parent>
@@ -37,6 +38,11 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
@@ -47,30 +53,41 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <!--uncomment below if deploying in web container -->
+      <!--<scope>provided</scope> -->  
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
-      <version>${tomee-servlet-api.version}</version>
-      <scope>provided</scope>
-    </dependency>
+    <!--uncomment below if deploying in web container -->
+    <!--<dependency> -->
+    <!-- <groupId>org.springframework.boot</groupId> -->
+    <!-- <artifactId>spring-boot-starter-tomcat</artifactId> -->
+    <!-- <scope>provided</scope> -->
+    <!--</dependency> -->
 
   </dependencies>
+
+  <build>
+    <finalName>spring-boot-jsp</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${spring-boot.version}</version>
+            <configuration>
+                <mainClass>edu.self.servlet.App</mainClass>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 
   <profiles>
     <profile>
